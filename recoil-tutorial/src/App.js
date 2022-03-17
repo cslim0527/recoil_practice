@@ -1,4 +1,5 @@
 import './styles.css'
+import {useState} from "react";
 
 function App() {
   return (
@@ -26,11 +27,15 @@ function Body() {
 }
 
 function Profile() {
+    const [username, setUsername] = useState('임찬수')
+
     return (
         <div>
             <h2>Profile</h2>
-            <p>임찬수</p>
-            <input type="text"/>
+            <p>{username || '이름을 입력해주세요.'}</p>
+            <input type="text" value={username} onChange={(e) => {
+                setUsername(e.target.value)
+            }}/>
         </div>
     );
 }
