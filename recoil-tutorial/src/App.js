@@ -1,10 +1,18 @@
 import './styles.css'
 import {useState} from "react";
-import {atom, RecoilRoot, useRecoilState, useRecoilValue} from "recoil";
+import {atom, RecoilRoot, selector, useRecoilState, useRecoilValue} from "recoil";
 
 const usernameState = atom({
     key: 'username',
     default: '홍길동'
+})
+
+const countState = selector({
+    key: 'count',
+    get: ({get}) => {
+        const username = get(usernameState)
+        return username.length
+    }
 })
 
 function App() {
@@ -30,6 +38,7 @@ function Body() {
     return (
         <div className={'contents'}>
             <Profile />
+            <Count />
         </div>
     );
 }
@@ -44,6 +53,17 @@ function Profile() {
             <h2>Profile</h2>
             <p>{username || '이름을 입력해주세요.'}</p>
             <input type="text" value={username} onChange={handleChangeName}/>
+        </div>
+    );
+}
+
+function Count() {
+    const count = useRecoilValue(countState)
+    return (
+        <div>
+            <p>
+                count: {count}
+            </p>
         </div>
     );
 }
